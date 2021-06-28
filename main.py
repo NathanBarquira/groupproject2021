@@ -17,7 +17,7 @@ class Map:
         self.master = tk.Tk()
         self.master.title('Aim Trainer')
         self.master.geometry('+{}+{}'.format(700, 300))
-        self.master.geometry('800x600')
+        # self.master.geometry('800x600')
         self.master.configure(background='white')
         self.master.resizable(0, 0)
 
@@ -26,19 +26,25 @@ class Map:
         self.master.mainloop()
 
     def create_map(self):
-        self.x = 10
-        self.y = 10
+        self.x = 0
+        self.y = 0
         image = tk.PhotoImage(file='map.png')
-        self.map = tk.Label(self.master)
-        self.map.image = image
-        self.map.configure(image=image)
-        self.map.grid(column=0, row=0, columnspan=20, rowspan=20)
+
+        for i in range(21):
+            for j in range(21):
+                self.map = tk.Button(self.master, width=4, height=2, bg='red')
+                self.map.grid(row=i, column=j)
+
+        # self.map = tk.Label(self.master)
+        # self.map.image = image
+        # self.map.configure(image=image)
+        # self.map.grid(column=0, row=0, columnspan=20, rowspan=20)
 
     def spawn_player(self):
-        self.player = tk.Label(self.master, width=50, height=50)
+        self.player = tk.Label(self.master, width=4, height=2, bg='black')
         player_image = tk.PhotoImage(file='panda.png')
-        self.player.image = player_image
-        self.player.configure(image=player_image)
+        # self.player.image = player_image
+        # self.player.configure(image=player_image)
         self.player.grid(row=self.x, column=self.y)
 
     def make_move(self):
@@ -48,14 +54,13 @@ class Map:
         self.master.bind('<d>', self.made_move_d)
 
     def made_move_d(self, event=None):
-        if self.y >= 19:
+        if self.y >= 20:
             print('DEBUG: you hit a wall!')
             self.player.destroy()
             self.spawn_player()
         else:
             self.y += 1
-            self.player.destroy()
-            self.spawn_player()
+            self.check_null(movement=self.y, positive=True)
 
     def made_move_w(self, event=None):
         if self.x <= 0:
@@ -68,7 +73,7 @@ class Map:
             self.spawn_player()
 
     def made_move_s(self, event=None):
-        if self.x >= 19:
+        if self.x >= 20:
             print('DEBUG: you hit a wall!')
             self.player.destroy()
             self.spawn_player()
@@ -84,18 +89,27 @@ class Map:
             self.spawn_player()
         else:
             self.y -= 1
-            self.player.destroy()
-            self.spawn_player()
+
 
     def random_terrain(self):
-        rock_x = random.randint(0, 20)
-        rock_y = random.randint(0, 20)
-        self.rock = tk.Label(self.master, width=50, height=50)
+        self.rock_x = random.randint(0, 20)
+        self.rock_y = random.randint(0, 20)
+        self.rock = tk.Label(self.master, width=10, height=10)
         rock_image = tk.PhotoImage(file='rock.png')
         self.rock.image = rock_image
         self.rock.configure(image=rock_image)
-        self.rock.grid(row=rock_x, column=rock_y)
+        self.rock.grid(row=self.rock_x, column=self.rock_y)
 
+    def check_null(self, movement='default', positive=False):
+        """ checks if movement is to rock """
+        if (self.x, self.y) == (self.rock_x, self.rock_y):
+            print('DEBUG: you hit rock')
+            if positive:
+                movement -= 1
+            else:
+                movement += 1
+            self.player.destroy()
+            self.spawn_player()
 
 if __name__ == '__main__':
     game = Map()
