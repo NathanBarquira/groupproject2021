@@ -59,8 +59,14 @@ class Map:
             self.player.destroy()
             self.spawn_player()
         else:
-            self.y += 1
-            self.check_null(movement=self.y, positive=True)
+            if (self.x, self.y + 1) == (self.rock_x, self.rock_y):
+                print('DEBUG: you hit rock')
+                self.player.destroy()
+                self.spawn_player()
+            else:
+                self.y += 1
+                self.player.destroy()
+                self.spawn_player()
 
     def made_move_w(self, event=None):
         if self.x <= 0:
@@ -68,9 +74,14 @@ class Map:
             self.player.destroy()
             self.spawn_player()
         else:
-            self.x -= 1
-            self.player.destroy()
-            self.spawn_player()
+            if (self.x - 1, self.y) == (self.rock_x, self.rock_y):
+                print('DEBUG: you hit rock')
+                self.player.destroy()
+                self.spawn_player()
+            else:
+                self.x -= 1
+                self.player.destroy()
+                self.spawn_player()
 
     def made_move_s(self, event=None):
         if self.x >= 20:
@@ -78,9 +89,14 @@ class Map:
             self.player.destroy()
             self.spawn_player()
         else:
-            self.x += 1
-            self.player.destroy()
-            self.spawn_player()
+            if (self.x + 1, self.y) == (self.rock_x, self.rock_y):
+                print('DEBUG: you hit rock')
+                self.player.destroy()
+                self.spawn_player()
+            else:
+                self.x += 1
+                self.player.destroy()
+                self.spawn_player()
 
     def made_move_a(self, event=None):
         if self.y <= 0:
@@ -88,8 +104,14 @@ class Map:
             self.player.destroy()
             self.spawn_player()
         else:
-            self.y -= 1
-
+            if (self.x, self.y - 1) == (self.rock_x, self.rock_y):
+                print('DEBUG: you hit rock')
+                self.player.destroy()
+                self.spawn_player()
+            else:
+                self.y -= 1
+                self.player.destroy()
+                self.spawn_player()
 
     def random_terrain(self):
         self.rock_x = random.randint(0, 20)
@@ -110,6 +132,8 @@ class Map:
                 movement += 1
             self.player.destroy()
             self.spawn_player()
+            return
+
 
 if __name__ == '__main__':
     game = Map()
