@@ -21,7 +21,9 @@ class Map:
 
     def create_map(self):
         image = tk.PhotoImage(file='map.jpeg')
-        self.map = tk.Label(self.master, image=image)
+        self.map = tk.Label(self.master)
+        self.map.image = image
+        self.map.configure(image=image)
         self.map.pack()
 
 
