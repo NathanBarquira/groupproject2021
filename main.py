@@ -20,11 +20,14 @@ class Map:
         self.master.mainloop()
 
     def create_map(self):
-        image = tk.PhotoImage(file='map.jpeg')
+        image = tk.PhotoImage(file='map.png')
         self.map = tk.Label(self.master)
         self.map.image = image
         self.map.configure(image=image)
-        self.map.pack()
+        self.map.grid(column=0, row=0, columnspan=10, rowspan=10)
+
+    def spawn_player(self):
+        self.player = tk.Label(self.master, color='black')
 
 
 if __name__ == '__main__':
