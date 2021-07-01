@@ -26,6 +26,10 @@ class Map:
         self.master.mainloop()
 
     def create_map(self):
+        """ creates the map for the game """
+
+        # initialize variables for the game
+        self.null_list = []
         self.x = 0
         self.y = 0
         image = tk.PhotoImage(file='map.png')
@@ -34,6 +38,11 @@ class Map:
             for j in range(21):
                 self.map = tk.Button(self.master, width=4, height=2, bg='red')
                 self.map.grid(row=i, column=j)
+
+        self.map_pic = tk.Label(self.master, width=795, height=860)
+        self.map_pic.image = image
+        self.map_pic.configure(image=image)
+        self.map_pic.grid(row=0, column=0, columnspan=100, rowspan=300)
 
         # self.map = tk.Label(self.master)
         # self.map.image = image
@@ -116,6 +125,7 @@ class Map:
     def random_terrain(self):
         self.rock_x = random.randint(0, 20)
         self.rock_y = random.randint(0, 20)
+        self.null_list.append((self.rock_x, self.rock_y))
         self.rock = tk.Label(self.master, width=10, height=10)
         rock_image = tk.PhotoImage(file='rock.png')
         self.rock.image = rock_image
